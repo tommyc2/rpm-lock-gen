@@ -1,0 +1,19 @@
+# This file is part of the rpm-lock-gen project.
+# Configure it to your needs.
+# For more information, see: https://github.com/konflux-ci/rpm-lockfile-prototype/blob/main/README.md
+contentOrigin:
+  repofiles:
+  # List of repository files to fetch packages from
+    - ./ubi.repo
+    - ./redhat.repo
+context:
+# Base image to use for the container (has only been test on redhat registry images).
+# Use either containerfile or base image as context
+  containerfile: Containerfile
+  image: registry.access.com/ubi9/ubi:latest
+packages:
+# List of packages to install in the container image.
+# Examples below
+  - jq
+  - skopeo
+  - git
