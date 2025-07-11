@@ -1,6 +1,8 @@
 # RPM Lock Generator
 A tool for quickly generating RPM lockfiles &amp; .repo files
 
+<strong> Note: </strong> <i>This tool is designed for Konflux RPM Prefetching</i>
+
 ### Requirements:
 - Docker/Podman
 - Skopeo credentials
