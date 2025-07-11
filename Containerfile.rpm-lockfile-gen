@@ -1,0 +1,31 @@
+ARG BASE_IMAGE
+
+FROM ${BASE_IMAGE}
+
+ARG BASE_IMAGE
+ARG ACTIVATION_KEY
+ARG ORG_ID
+ARG SKOPEO_USERNAME
+ARG SKOPEO_PASSWORD
+
+RUN dnf install -y python3 python3-pip python3-dnf skopeo rpm
+
+ARG GIT_REF=heads/main
+
+RUN python3 -m pip install https://github.com/konflux-ci/rpm-lockfile-prototype/archive/refs/${GIT_REF}.tar.gz
+
+RUN subscription-manager register --activationkey=${ACTIVATION_KEY} --org=${ORG_ID}
+
+WORKDIR /out
+
+RUN cp /etc/yum.repos.d/ubi.repo ubi.repo
+RUN cp /etc/yum.repos.d/redhat.repo redhat.repo
+
+RUN sed -i "s/$(uname -m)/\$basearch/g" ubi.repo
+RUN sed -i "s/$(uname -m)/\$basearch/g" redhat.repo
+
+RUN sed -i "s/enabled = 0/enabled = 1/g" ubi.repo
+
+RUN skopeo login --username ${SKOPEO_USERNAME} --password ${SKOPEO_PASSWORD} registry.redhat.io
+
+ENTRYPOINT ["/bin/bash"]
