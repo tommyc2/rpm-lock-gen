@@ -22,6 +22,7 @@ Start script
 
 ```bash
 chmod +x start.sh
+./start.sh
 ```
 
 This will bring you into a temporary container. 
